@@ -27,7 +27,7 @@
 			font-size: 32pt;
 			margin-top: 10pt;
 		}
-		.star-signs {
+		#star-signs {
 			position: absolute;
 			display: block;
 			margin-right: auto;
@@ -38,7 +38,7 @@
 			transition-timing-function: ease-in-out;
 		}
 
-		.star-signs:hover {
+		#star-signs:hover {
 				transform: rotate(1080deg);
 			}
 		}
@@ -49,12 +49,20 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
 
 	<div class="title">
-		Spinning Cosmic Dice
+		Spinning Cosmic Wheel
 	</div>
 
-	<div class="star-signs">
+	<div id="star-signs" onclick="imageReveal()">
 		<img src="signs.png">
 	</div>
+
+	<script>
+		function imageReveal() {
+			document.getElementById("star-signs").innerhtml = "<img src='palm.gif'";
+		}
+
+		imageReveal()
+	</script>
 
 	<script>
 		var colors = [0x5ABAA, 0xBBD5B8, 0xD7B49E, 0xDC602E, 0xBC412B, 0xF19C79, 0xCBDFBD, 0xF6F4D2, 0xD4E09B, 0xFFA8A9, 0xF786AA, 0xA14A76, 0xBC412B, 0x63A375, 0xD57A66, 0x731A33, 0xCBD2DC, 0xDBD48E, 0x5E5E5E, 0x5AD2DC];
