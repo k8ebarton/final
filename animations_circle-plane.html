@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<title>JS.Animations</title>
+	<style>
+		body {
+			margin: 0px;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			background: url('stars.gif');
+		}
+		canvas {
+			width: 100% ;
+			height: 100%;
+		}
+
+
+		.label {
+			position: absolute;
+			width: 100%;
+			text-align: center;
+			top: 0;
+			color: #fff;
+		}
+
+		.star-signs {
+			position: absolute;
+			display: block;
+			margin-left: 400px;
+			margin-top: 120px;
+			margin-right: auto;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/javascript" src="three.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+
+	<div class="star-signs">
+		<img src="signs.png">
+	</div>
+
+	<div>
+	<script>
+		var scene, camera, renderer, geometry, controls, mesh;
+
+		var verticePositions = []; 
+
+		function initScene() {
+			scene = new THREE.Scene();
+			camera = new THREE.PerspectiveCamera( 
+				30, 
+				window.innerWidth/window.innerHeight, 
+				0.1, 
+				1000 );
+			renderer = new THREE.WebGLRenderer({alpha: true});
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+			camera.position.z=100;
+		}
+
+		function initLighting() {
+			var light = new THREE.DirectionalLight(
+				0xffffff, 1 );
+			light.position.set( 0, 1, 0 ); 
+			scene.add( light );
+
+			var light = new THREE.DirectionalLight(
+				0xffffff, 0.5);
+				light.position.set( 0, -1, 0 ); 
+				scene.add( light );
+
+			var light = new THREE.DirectionalLight(
+				0xffffff, 1);
+				light.position.set( 1, 0, 0 );
+				scene.add( light );
+
+			var light = new THREE.DirectionalLight(
+				0xffffff, 1);
+				light.position.set( 0, 0, 1 ); 
+				scene.add( light );
+
+			var light = new THREE.DirectionalLight(
+				0xffffff, 1); 
+				light.position.set( 0, 0, -1 ); 
+				scene.add( light ); 
+
+			var light = new THREE.DirectionalLight(
+				0xffffff, 0.5); 
+				light.position.set( -1, 0, 0 ); 
+				scene.add( light ); 
+		}
+
+		function initGeometry() {
+			var geometry = new THREE.CircleGeometry( 24, 12 ); 
+			var material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true }); 
+			var circle = new THREE.Mesh( geometry, material );
+			circle.rotateX(Math.PI/1)
+			scene.add( circle );
+		}
+
+		function render() {
+			renderer.render( scene, camera );
+		}; 
+
+		function resize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+			renderer.setSize( window.innerWidth, window.innerHeight);		
+		}
+
+		function animate() {
+			requestAnimationFrame( animate );
+			controls.update();
+			renderer.render(scene, camera);
+		}
+
+		initScene();
+		initLighting();
+		initGeometry();
+		resize(); 
+		render();
+		window.addEventListener("resize", resize); 
+	</script>
+	</div>
+	
+</body>
+</html>

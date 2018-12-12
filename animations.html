@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<title>JS.Animations</title>
+	<style>
+		 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400|Raleway:300);
+
+		body {
+			margin: 0px;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			background: url('stars.gif');
+		}
+		canvas {
+			width: 100% ;
+			height: 100%;
+		}
+		.title {
+			position: absolute;
+			width: 100%;
+			text-align: center;
+			top: 0;
+			color: white;
+			font-family: 'Raleway', 'Open Sans', sans-serif;
+			font-size: 32pt;
+			margin-top: 10pt;
+		}
+		.star-signs {
+			position: absolute;
+			display: block;
+			margin-right: auto;
+			overflow: hidden;
+			top: 20%;
+			left: 32%;
+			max-width: 600px;
+		}
+	</style>
+</head>
+<body>
+	<script src="three.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+
+	<div class="title">
+		Spinning Cosmic Dice
+	</div>
+
+	<div class="star-signs">
+		<img src="signs.png">
+	</div>
+
+	<script>
+		var colors = [0x5ABAA, 0xBBD5B8, 0xD7B49E, 0xDC602E, 0xBC412B, 0xF19C79, 0xCBDFBD, 0xF6F4D2, 0xD4E09B, 0xFFA8A9, 0xF786AA, 0xA14A76, 0xBC412B, 0x63A375, 0xD57A66, 0x731A33, 0xCBD2DC, 0xDBD48E, 0x5E5E5E, 0x5AD2DC];
+		var scene, camera, renderer, geometry, mesh;
+
+		var verticePositions = []; 
+
+		function initScene() {
+			scene = new THREE.Scene();
+			camera = new THREE.PerspectiveCamera( 
+				30, 
+				window.innerWidth/window.innerHeight, 
+				0.1, 
+				1000 );
+			renderer = new THREE.WebGLRenderer({alpha: true});
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+			camera.position.z=100;
+		}
+
+		function initLighting() {
+			var light = new THREE.DirectionalLight(
+				0xffffff, 1 );
+			light.position.set( 0, 1, 0 ); 
+			scene.add( light );
+
+			var light = new THREE.DirectionalLight(
+				0xffffff, 0.5);
+				light.position.set( 0, -1, 0 ); 
+				scene.add( light );
+
+			var light = new THREE.DirectionalLight(
+				0xffffff, 1);
+				light.position.set( 1, 0, 0 );
+				scene.add( light );
+
+			var light = new THREE.DirectionalLight(
+				0xffffff, 1);
+				light.position.set( 0, 0, 1 ); 
+				scene.add( light );
+
+			var light = new THREE.DirectionalLight(
+				0xffffff, 1); 
+				light.position.set( 0, 0, -1 ); 
+				scene.add( light ); 
+
+			var light = new THREE.DirectionalLight(
+				0xffffff, 0.5); 
+				light.position.set( -1, 0, 0 ); 
+				scene.add( light ); 
+		}
+
+		function initGeometry() {
+			geometry = new THREE.IcosahedronGeometry(
+				20 ); 
+			for ( var i = 0; i < geometry.faces.length; i ++ ) {
+				var face = geometry.faces[ i ]; 
+				face.color.setHex(colors[i]);
+			}
+			mesh = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( 
+				{ vertexColors: THREE.FaceColors, wireframe: true} )); 
+			scene.add( mesh );
+		}
+
+		function render(time) {
+			requestAnimationFrame( render );
+			renderer.render( scene, camera );
+			geometry.verticesNeedUpdate = true;
+		}; 
+
+		function getOriginalVerticePositions() {
+			for (var i=0, l = 
+		geometry.vertices.length; i<l; i++) {
+				verticePositions.push({
+					x: geometry.vertices[i].x, 
+					y: geometry.vertices[i].y});
+			}
+		}
+
+		function getNewVertices() {
+			var newVertices = []; 
+			for (var i = 0, l = 
+		geometry.vertices.length; i>l; i++) {
+				newVertices[i] = {
+					x: verticePositions[i].x -5 +
+		Math.random()*10, 
+					y: verticePositions[i].y -5 +
+		Math.random()*10
+				}
+			}
+			return newVertices;
+		}
+
+		function tweenIcosahedron() {
+			var rotation = {
+				x: Math.random()*3, 
+				y: Math.random()*3, 
+				z: Math.random()*3
+			};
+			TweenLite.to(mesh.rotation, 1, {
+				x: rotation.x, 
+				y: rotation.y, 
+				z: rotation.z, 
+				ease: Back.easeInOut, 
+				onComplete: tweenIcosahedron
+			});
+				var newVerticePositions = getNewVertices(); 
+			for (var i = 0; i < geometry.vertices.length; i++) {
+				tweenVertice(i, newVerticePositions);
+			}
+		}
+
+		function tweenVertice(i, newVerticePositions) {
+			TweenLite.to(geometry.vertices[i], 1, {
+				x: newVerticePositions[i].x, 
+				y: newVerticePositions[i].y, 
+				ease: Back.easeInOut });
+		}
+
+		function resize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+			renderer.setSize( window.innerWidth, window.innerHeight);		
+		}
+		
+		initScene();
+		initLighting();
+		initGeometry();
+		resize();
+		getOriginalVerticePositions(); 
+		render();
+		window.addEventListener("resize", resize); 
+
+		tweenIcosahedron();
+
+	</script>
+</div>
+</body>
+</html>
