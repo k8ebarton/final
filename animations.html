@@ -42,6 +42,25 @@
 				transform: rotate(1080deg);
 			}
 		}
+
+		#centered {
+        position: absolute;
+        top: 80%;
+        left: 47%;
+        transform: translate(-50%, -50%);
+      	}
+
+		#button {
+			position: absolute;
+			background-color: white;
+        	color: black;
+        	padding: 20px 40px;
+        	text-align: center;
+        	text-decoration: none;
+        	display: inline-block;
+        	font-family: 'Raleway', 'Open Sans', sans-serif;
+        	opacity: .85;
+		}
 	</style>
 </head>
 <body>
@@ -52,16 +71,22 @@
 		Spinning Cosmic Wheel
 	</div>
 
-	<div id="star-signs" onclick="imageReveal()">
+	<div id="star-signs">
 		<img src="signs.png">
+	</div>
+
+	<div>
+		<img style="display:none;" id="button" src="button" />
+		<button id="button, centered" onclick="imageReveal()">REVEAL</button>
 	</div>
 
 	<script>
 		function imageReveal() {
-			document.getElementById("star-signs").innerhtml = "<img src='palm.gif'";
+			var sourceOfPicture = "lady.gif"; 
+			var img = document.getElementById("button")
+			img.src = sourceOfPicture.replace(); 
+			img.style.display = "block";
 		}
-
-		imageReveal()
 	</script>
 
 	<script>
