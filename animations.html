@@ -32,23 +32,28 @@
 			display: block;
 			margin-right: auto;
 			overflow: hidden;
-			top: 20%;
-			left: 32%;
-			transition: all 3s;
-			transition-timing-function: ease-in-out;
+			transform: translate(-50%, -50%);
+			top: 50%;
+			left: 50%;
 		}
 
-		#star-signs:hover {
+		#star-signs img {
+			transition: all 3s;
+			transition-timing-function: ease-in-out;
+			
+		}
+
+		#star-signs img:hover {
 				transform: rotate(1080deg);
 			}
 		}
 
-		#centered {
+		/*#centered {
         position: absolute;
         top: 80%;
         left: 47%;
         transform: translate(-50%, -50%);
-      	}
+      	}*/
 
 		#button {
 			position: absolute;
@@ -60,6 +65,20 @@
         	display: inline-block;
         	font-family: 'Raleway', 'Open Sans', sans-serif;
         	opacity: .85;
+		}
+
+		#image {
+			width: 100vw;
+			height: 100vh;
+			background-image: url(lady.gif);
+		    background-repeat: no-repeat;
+		    background-position: center;
+		    background-size: cover;
+		    position: absolute;
+		    z-index: -1;
+		    top: 0;
+		    left: 0;
+		    display: none;
 		}
 	</style>
 </head>
@@ -75,18 +94,29 @@
 		<img src="signs.png">
 	</div>
 
-	<div>
-		<img style="display:none;" id="button" src="button" />
-		<button id="button, centered" onclick="imageReveal()">REVEAL</button>
+	<div id="image">
+		<!-- <img style="display:none;" id="button" src="button" /> -->
+		<!-- <button id="button, centered" onclick="imageReveal()">REVEAL</button> -->
 	</div>
 
+	<script type="text/javascript">
+		//this is for onclick event for star-signs image
+		var button = document.getElementById("star-signs");
+
+		button.addEventListener("click", function(){
+			//where we wanna show that image
+			var img = document.getElementById("image");
+			image.style.display = "block";
+		});
+
+	</script>
+
 	<script>
-		function imageReveal() {
-			var sourceOfPicture = "lady.gif"; 
-			var img = document.getElementById("button")
-			img.src = sourceOfPicture.replace(); 
-			img.style.display = "block";
-		}
+		// function imageReveal() {
+		// 	var sourceOfPicture = "lady.gif"; 
+		// 	img.src = sourceOfPicture.replace(); 
+		// 	img.style.display = "block";
+		// }
 	</script>
 
 	<script>
